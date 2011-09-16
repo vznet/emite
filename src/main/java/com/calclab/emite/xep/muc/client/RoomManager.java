@@ -1,7 +1,7 @@
 /*
  * ((e)) emite: A pure Google Web Toolkit XMPP library
  * Copyright (c) 2008-2011 The Emite development team
- * 
+ *
  * This file is part of Emite.
  *
  * Emite is free software: you can redistribute it and/or modify
@@ -13,7 +13,7 @@
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with Emite.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -27,34 +27,46 @@ import com.google.gwt.event.shared.HandlerRegistration;
 
 /**
  * RoomManager: room related methods
- * 
+ *
  * @see ChatManager
  */
 public interface RoomManager extends ChatManager {
-	/**
-	 * Accepts a room invitation event
-	 * 
-	 * @param invitation
-	 *            the invitation event to be accepted
-	 */
-	public Room acceptRoomInvitation(RoomInvitation invitation);
+    /**
+     * Accepts a room invitation event with the jid node
+     * as nickname
+     *
+     * @param invitation
+     *            the invitation event to be accepted
+     */
+    public Room acceptRoomInvitation(RoomInvitation invitation);
 
-	/**
-	 * Add a handler to know when a room invitation has arrived
-	 * 
-	 * @param handler
-	 * @return
-	 */
-	public HandlerRegistration addRoomInvitationReceivedHandler(RoomInvitationHandler handler);
+    /**
+     * Accepts a room invitation event and specifies a custom
+     * nick name
+     * @param invitation
+     *            the invitation event to be accepted
+     * @param ownNickName
+     *            the desired nickname in the group chat
+     * @return
+     */
+    public Room acceptRoomInvitation(RoomInvitation invitation, String ownNickName);
 
-	/**
-	 * Obtain the default history options applied to all new rooms
-	 * 
-	 * @return
-	 */
-	public HistoryOptions getDefaultHistoryOptions();
+    /**
+     * Add a handler to know when a room invitation has arrived
+     *
+     * @param handler
+     * @return
+     */
+    public HandlerRegistration addRoomInvitationReceivedHandler(RoomInvitationHandler handler);
 
-	public Room open(final XmppURI uri, HistoryOptions historyOptions);
+    /**
+     * Obtain the default history options applied to all new rooms
+     *
+     * @return
+     */
+    public HistoryOptions getDefaultHistoryOptions();
 
-	public void setDefaultHistoryOptions(HistoryOptions historyOptions);
+    public Room open(final XmppURI uri, HistoryOptions historyOptions);
+
+    public void setDefaultHistoryOptions(HistoryOptions historyOptions);
 }
