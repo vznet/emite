@@ -69,4 +69,8 @@ public interface RoomManager extends ChatManager {
     public Room open(final XmppURI uri, HistoryOptions historyOptions);
 
     public void setDefaultHistoryOptions(HistoryOptions historyOptions);
+
+    void setOwnNickName(String nickName);
+
+    void setOwnVzImageUrl(String url);
 }

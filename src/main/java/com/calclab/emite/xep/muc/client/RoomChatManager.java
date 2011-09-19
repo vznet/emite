@@ -59,6 +59,8 @@ public class RoomChatManager extends AbstractChatManager implements RoomManager 
     private static final String HISTORY_OPTIONS_PROP = "history.options";
     private final HashMap<XmppURI, Room> roomsByJID;
     private HistoryOptions defaultHistoryOptions;
+    private String ownNickName;
+    private String vzImageUrl;
 
     public RoomChatManager(final XmppSession session) {
         this(session, new RoomChatSelectionStrategy());
@@ -123,6 +125,16 @@ public class RoomChatManager extends AbstractChatManager implements RoomManager 
         this.defaultHistoryOptions = defaultHistoryOptions;
     }
 
+    @Override
+    public void setOwnNickName(String nickName) {
+        ownNickName = nickName;
+    }
+
+    @Override
+    public void setOwnVzImageUrl(String url) {
+        vzImageUrl = url;
+    }
+
     /**
      * Forward the presence messages to the room event bus.
      */
@@ -182,6 +194,6 @@ public class RoomChatManager extends AbstractChatManager implements RoomManager 
         if (properties.getState() == null) {
             properties.setState(ChatStates.locked);
         }
-        return new RoomChat(session, properties);
+        return new RoomChat(session, properties, ownNickName, vzImageUrl);
     }
 }
