@@ -192,6 +192,9 @@ public class Occupant implements HasJID {
      */
     @Override
     public XmppURI getJID() {
+        if (getUserUri() == null) {
+            return null;
+        }
         return getUserUri().getJID();
     }
 }
