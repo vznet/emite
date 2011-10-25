@@ -23,6 +23,7 @@ package com.calclab.emite.im.client.chat;
 import com.calclab.emite.core.client.xmpp.session.XmppSession;
 import com.calclab.emite.core.client.xmpp.stanzas.Message;
 import com.calclab.emite.core.client.xmpp.stanzas.Message.Type;
+import com.calclab.emite.core.client.xmpp.stanzas.XmppURI;
 
 /**
  * Default Chat implementation. Use Chat interface instead. Created by a chat
@@ -70,6 +71,13 @@ public class PairChat extends AbstractChat {
 		message.setThread(getThread());
 		message.setType(Type.chat);
 		message.setTo(getURI());
+		super.send(message);
+	}
+
+	public void sendToResource(final Message message, String resource) {
+		message.setThread(getThread());
+		message.setType(Type.chat);
+		message.setTo(XmppURI.uri(getURI().getNode(), getURI().getHost(), resource));
 		super.send(message);
 	}
 

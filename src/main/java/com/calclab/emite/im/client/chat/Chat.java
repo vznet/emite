@@ -180,4 +180,14 @@ public interface Chat {
 	 */
 	public void send(Message message);
 
+	/**
+	 * Send a message to the uri of this chat but use a custom resource
+	 * 
+	 * @param message
+	 *            the message
+	 * @param resource
+	 *            the specific resource
+	 */
+	public void sendToResource(final Message message, final String resource);
+
 }

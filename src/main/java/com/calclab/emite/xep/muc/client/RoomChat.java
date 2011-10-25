@@ -175,6 +175,11 @@ public class RoomChat extends RoomBoilerplate {
 		super.send(message);
 	}
 
+	@Override
+	public void sendToResource(final Message message, final String resource) {
+		this.sendPrivateMessage(message, resource);
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
