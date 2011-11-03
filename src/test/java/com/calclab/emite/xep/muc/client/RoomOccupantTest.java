@@ -1,7 +1,7 @@
 /*
  * ((e)) emite: A pure Google Web Toolkit XMPP library
  * Copyright (c) 2008-2011 The Emite development team
- * 
+ *
  * This file is part of Emite.
  *
  * Emite is free software: you can redistribute it and/or modify
@@ -13,7 +13,7 @@
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with Emite.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -29,11 +29,13 @@ import com.calclab.emite.core.client.xmpp.stanzas.Presence.Show;
 
 public class RoomOccupantTest {
 
-	@Test
-	public void shouldAnswerUnknownStatusWhenNotValid() {
-		final Occupant occupant = new Occupant(uri("user@domain"), uri("room@domain/user"), "not valid affiliation", "not valid role", Show.unknown, "message");
-		assertEquals(Occupant.Affiliation.none, occupant.getAffiliation());
-		assertEquals(Occupant.Role.unknown, occupant.getRole());
-		assertEquals(Show.unknown, occupant.getShow());
-	}
+    @Test
+    public void shouldAnswerUnknownStatusWhenNotValid() {
+        final Occupant occupant = new Occupant(uri("user@domain"), uri("room@domain/user"), "not valid affiliation", "not valid role", Show.unknown, "message", "displayName", "vzImageUrl");
+        assertEquals(Occupant.Affiliation.none, occupant.getAffiliation());
+        assertEquals(Occupant.Role.unknown, occupant.getRole());
+        assertEquals(Show.unknown, occupant.getShow());
+        assertEquals("displayName", occupant.getDisplayName());
+        assertEquals("vzImageUrl", occupant.getVzImageUrl());
+    }
 }

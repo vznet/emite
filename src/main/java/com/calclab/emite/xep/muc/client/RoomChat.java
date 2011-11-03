@@ -1,7 +1,7 @@
 /*
  * ((e)) emite: A pure Google Web Toolkit XMPP library
  * Copyright (c) 2008-2011 The Emite development team
- * 
+ *
  * This file is part of Emite.
  *
  * Emite is free software: you can redistribute it and/or modify
@@ -13,7 +13,7 @@
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with Emite.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -28,6 +28,7 @@ import com.calclab.emite.core.client.events.PresenceEvent;
 import com.calclab.emite.core.client.events.PresenceHandler;
 import com.calclab.emite.core.client.packet.IPacket;
 import com.calclab.emite.core.client.packet.MatcherFactory;
+import com.calclab.emite.core.client.packet.Packet;
 import com.calclab.emite.core.client.packet.PacketMatcher;
 import com.calclab.emite.core.client.xmpp.datetime.XmppDateTime;
 import com.calclab.emite.core.client.xmpp.session.IQResponseHandler;
@@ -53,6 +54,11 @@ import com.calclab.emite.xep.muc.client.events.RoomInvitationSentEvent;
  */
 public class RoomChat extends RoomBoilerplate {
 	protected static final PacketMatcher ROOM_CREATED = MatcherFactory.byNameAndXMLNS("x", "http://jabber.org/protocol/muc#user");
+	protected static final PacketMatcher NICK = MatcherFactory.byNameAndXMLNS("nick", "http://jabber.org/protocol/nick");
+	protected static final PacketMatcher VZ_IMG = MatcherFactory.byNameAndXMLNS("vz-img", "http://www.vz.net");
+
+	private String ownNickName;
+	private String vzImageUrl;
 
 	/**
 	 * Create a new room with the given properties. Room are created by
@@ -63,8 +69,11 @@ public class RoomChat extends RoomBoilerplate {
 	 * @param roomURI
 	 *            the room uri with the nick specified in the resource part
 	 */
-	RoomChat(final XmppSession session, final ChatProperties properties) {
+	RoomChat(final XmppSession session, final ChatProperties properties, final String ownNickName, final String vzImageUrl) {
 		super(session, properties);
+		this.ownNickName = ownNickName;
+		this.vzImageUrl = vzImageUrl;
+
 		setChatState(ChatStates.locked);
 
 		trackRoomPresence();
@@ -166,6 +175,11 @@ public class RoomChat extends RoomBoilerplate {
 		super.send(message);
 	}
 
+	@Override
+	public void sendToResource(final Message message, final String resource) {
+		this.sendPrivateMessage(message, resource);
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -217,6 +231,16 @@ public class RoomChat extends RoomBoilerplate {
 	protected Presence createEnterPresence(final HistoryOptions historyOptions) {
 		final Presence presence = new Presence(null, null, getURI());
 		final IPacket x = presence.addChild("x", "http://jabber.org/protocol/muc");
+		if (ownNickName != null) {
+			final IPacket nick = new Packet("nick", "http://jabber.org/protocol/nick");
+			nick.setText(ownNickName);
+			presence.addChild(nick);
+		}
+		if (vzImageUrl != null) {
+			final IPacket img = new Packet("vz-img", "http://www.vz.net");
+			img.setText(vzImageUrl);
+			presence.addChild(img);
+		}
 		presence.setPriority(0);
 		if (historyOptions != null) {
 			final IPacket h = x.addChild("history");
@@ -257,10 +281,10 @@ public class RoomChat extends RoomBoilerplate {
 	}
 
 	protected Occupant setOccupantPresence(final XmppURI userUri, final XmppURI occupantUri, final String affiliation, final String role, final Show show,
-			final String statusMessage) {
+			final String statusMessage, final String displayName, final String vzImageUrl) {
 		Occupant occupant = getOccupantByOccupantUri(occupantUri);
 		if (occupant == null) {
-			occupant = new Occupant(userUri, occupantUri, affiliation, role, show, statusMessage);
+			occupant = new Occupant(userUri, occupantUri, affiliation, role, show, statusMessage, displayName, vzImageUrl);
 			addOccupant(occupant);
 		} else {
 			occupant.setAffiliation(affiliation);
@@ -291,13 +315,23 @@ public class RoomChat extends RoomBoilerplate {
 						close();
 					}
 				} else {
+					String displayName = null;
+					final List<? extends IPacket> children1 = presence.getChildren(NICK);
+					for (final IPacket child : children1) {
+						displayName = child.getText();
+					}
+					String vzImageUrl = null;
+					final List<? extends IPacket> children2 = presence.getChildren(VZ_IMG);
+					for (final IPacket child : children2) {
+						vzImageUrl = child.getText();
+					}
 					final List<? extends IPacket> children = presence.getChildren(ROOM_CREATED);
 					for (final IPacket child : children) {
 						final IPacket item = child.getFirstChild("item");
 						final String affiliation = item.getAttribute("affiliation");
 						final String role = item.getAttribute("role");
 						final XmppURI userUri = XmppURI.uri(item.getAttribute("jid"));
-						setOccupantPresence(userUri, occupantURI, affiliation, role, presence.getShow(), presence.getStatus());
+						setOccupantPresence(userUri, occupantURI, affiliation, role, presence.getShow(), presence.getStatus(), displayName, vzImageUrl);
 						if (isNewRoom(child)) {
 							requestCreateInstantRoom();
 						} else {
