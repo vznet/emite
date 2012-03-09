@@ -1,7 +1,7 @@
 /*
  * ((e)) emite: A pure Google Web Toolkit XMPP library
  * Copyright (c) 2008-2011 The Emite development team
- * 
+ *
  * This file is part of Emite.
  *
  * Emite is free software: you can redistribute it and/or modify
@@ -13,7 +13,7 @@
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with Emite.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -129,12 +129,22 @@ public abstract class AbstractChatManager extends ChatManagerBoilerplate {
 			@Override
 			public void onMessage(final MessageEvent event) {
 				final Message message = event.getMessage();
-				final ChatProperties properties = strategy.extractProperties(message);
+				// if received message was sent by current user
+				ChatProperties properties;
+				if (session.getCurrentUserURI().equalsNoResource(message.getFrom())) {
+					properties = new ChatProperties(message.getTo());
+				} else {
+					properties = strategy.extractProperties(message);
+				}
 				if (properties != null) {
 					Chat chat = getChat(properties, false);
 					if (chat == null && properties.shouldCreateNewChat()) {
 						// we need to create a chat for this incoming message
-						properties.setInitiatorUri(properties.getUri());
+						if (session.getCurrentUserURI().equalsNoResource(message.getFrom())) {
+							properties.setInitiatorUri(message.getFrom());
+						} else {
+							properties.setInitiatorUri(properties.getUri());
+						}
 						chat = addNewChat(properties);
 					}
 					if (chat != null) {
