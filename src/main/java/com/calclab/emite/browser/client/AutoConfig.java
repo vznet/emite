@@ -1,7 +1,7 @@
 /*
  * ((e)) emite: A pure Google Web Toolkit XMPP library
  * Copyright (c) 2008-2011 The Emite development team
- * 
+ *
  * This file is part of Emite.
  *
  * Emite is free software: you can redistribute it and/or modify
@@ -13,7 +13,7 @@
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with Emite.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -44,7 +44,7 @@ import com.google.inject.Inject;
  * 
  */
 public class AutoConfig {
-	
+
 	private static final Logger logger = Logger.getLogger(AutoConfig.class.getName());
 
 	private static final String LOGIN = "login";
@@ -84,7 +84,7 @@ public class AutoConfig {
 					PageAssist.pauseSession(session);
 				} else if (LOGIN.equals(sessionBehaviour)) {
 					logger.info("LOGGIN OUT SESSION...");
-					PageAssist.closeSession(session);
+					// PageAssist.closeSession(session);
 				} else if (LOGOUT.equals(sessionBehaviour)) {
 					logger.info("LOGGIN OUT SESSION...");
 					PageAssist.closeSession(session);
