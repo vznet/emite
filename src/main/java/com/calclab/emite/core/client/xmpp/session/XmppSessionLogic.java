@@ -176,14 +176,16 @@ public class XmppSessionLogic extends XmppSessionBoilerPlate {
 	@Override
 	public void logout() {
 		if (getSessionState() != SessionStates.disconnected && userUri != null) {
-			// TODO : To be reviewed, preventing unvailable presences to be sent
-			// so that only the 'terminate' is sent
-			// Unvailabel are handled automatically by the server
 			setSessionState(SessionStates.loggingOut);
-			userUri = null;
-			connection.disconnect();
-			setSessionState(SessionStates.disconnected);
+			terminate();
 		}
+	}
+
+	@Override
+	public void terminate() {
+		userUri = null;
+		connection.disconnect();
+		setSessionState(SessionStates.disconnected);
 	}
 
 	@Override

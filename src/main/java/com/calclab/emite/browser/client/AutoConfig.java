@@ -84,7 +84,7 @@ public class AutoConfig {
 					PageAssist.pauseSession(session);
 				} else if (LOGIN.equals(sessionBehaviour)) {
 					logger.info("LOGGIN OUT SESSION...");
-					// PageAssist.closeSession(session);
+					PageAssist.terminateSession(session);
 				} else if (LOGOUT.equals(sessionBehaviour)) {
 					logger.info("LOGGIN OUT SESSION...");
 					PageAssist.closeSession(session);

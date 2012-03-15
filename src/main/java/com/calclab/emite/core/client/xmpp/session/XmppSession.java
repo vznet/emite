@@ -149,6 +149,11 @@ public interface XmppSession {
 	public void logout();
 
 	/**
+	 * terminates the current session without "logging out"
+	 */
+	public void terminate();
+
+	/**
 	 * Call this method to pause the session. You can use the given object
 	 * object (or other with the same data) to resume the session later.
 	 * 

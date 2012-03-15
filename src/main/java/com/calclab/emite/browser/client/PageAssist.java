@@ -102,6 +102,15 @@ public class PageAssist {
 	}
 
 	/**
+	 * terminates the session
+	 * 
+	 * @param session
+	 */
+	public static void terminateSession(final XmppSession session) {
+		session.terminate();
+	}
+
+	/**
 	 * Will configure the given connection if PARAM_HTTPBASE <b>and</b>
 	 * PARAM_HOST is present as html meta tags in the current html page
 	 * 

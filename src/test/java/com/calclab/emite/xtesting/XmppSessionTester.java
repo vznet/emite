@@ -235,4 +235,10 @@ public class XmppSessionTester extends XmppSessionBoilerPlate {
 		return isContained;
 	}
 
+	@Override
+	public void terminate() {
+		// TODO Auto-generated method stub
+
+	}
+
 }
