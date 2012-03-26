@@ -237,7 +237,10 @@ public class XmppSessionTester extends XmppSessionBoilerPlate {
 
 	@Override
 	public void terminate() {
-		// TODO Auto-generated method stub
+		if (currentUser != null) {
+			currentUser = null;
+			setSessionState(SessionStates.disconnected);
+		}
 
 	}
 
