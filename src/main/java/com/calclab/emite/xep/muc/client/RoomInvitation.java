@@ -1,7 +1,7 @@
 /*
  * ((e)) emite: A pure Google Web Toolkit XMPP library
  * Copyright (c) 2008-2011 The Emite development team
- * 
+ *
  * This file is part of Emite.
  *
  * Emite is free software: you can redistribute it and/or modify
@@ -13,19 +13,22 @@
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with Emite.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package com.calclab.emite.xep.muc.client;
 
+import com.calclab.emite.core.client.xmpp.stanzas.Message;
 import com.calclab.emite.core.client.xmpp.stanzas.XmppURI;
 import com.calclab.emite.im.client.chat.ChatProperties;
 
 public class RoomInvitation {
 	private final String reason;
 	private final ChatProperties chatProperties;
+	private Message message;
+	private XmppURI to;
 
 	public RoomInvitation(final XmppURI invitor, final XmppURI roomURI, final String reason) {
 		chatProperties = new ChatProperties(roomURI, invitor, null);
@@ -51,6 +54,22 @@ public class RoomInvitation {
 
 	public XmppURI getRoomURI() {
 		return chatProperties.getUri();
+	}
+
+	public XmppURI getTo() {
+		return to;
+	}
+
+	public void setTo(XmppURI to) {
+		this.to = to;
+	}
+
+	public Message getMessage() {
+		return message;
+	}
+
+	public void setMessage(Message message) {
+		this.message = message;
 	}
 
 }

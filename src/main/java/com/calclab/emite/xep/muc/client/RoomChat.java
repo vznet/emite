@@ -69,7 +69,7 @@ public class RoomChat extends RoomBoilerplate {
 	 * @param roomURI
 	 *            the room uri with the nick specified in the resource part
 	 */
-	RoomChat(final XmppSession session, final ChatProperties properties, final String ownNickName, final String vzImageUrl) {
+	public RoomChat(final XmppSession session, final ChatProperties properties, final String ownNickName, final String vzImageUrl) {
 		super(session, properties);
 		this.ownNickName = ownNickName;
 		this.vzImageUrl = vzImageUrl;

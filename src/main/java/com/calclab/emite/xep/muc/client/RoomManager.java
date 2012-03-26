@@ -21,56 +21,59 @@
 package com.calclab.emite.xep.muc.client;
 
 import com.calclab.emite.core.client.xmpp.stanzas.XmppURI;
+import com.calclab.emite.im.client.chat.Chat;
 import com.calclab.emite.im.client.chat.ChatManager;
 import com.calclab.emite.xep.muc.client.events.RoomInvitationHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 
 /**
  * RoomManager: room related methods
- *
+ * 
  * @see ChatManager
  */
 public interface RoomManager extends ChatManager {
-    /**
-     * Accepts a room invitation event with the jid node
-     * as nickname
-     *
-     * @param invitation
-     *            the invitation event to be accepted
-     */
-    public Room acceptRoomInvitation(RoomInvitation invitation);
+	/**
+	 * Accepts a room invitation event with the jid node as nickname
+	 * 
+	 * @param invitation
+	 *            the invitation event to be accepted
+	 */
+	public Room acceptRoomInvitation(RoomInvitation invitation);
 
-    /**
-     * Accepts a room invitation event and specifies a custom
-     * nick name
-     * @param invitation
-     *            the invitation event to be accepted
-     * @param ownNickName
-     *            the desired nickname in the group chat
-     * @return
-     */
-    public Room acceptRoomInvitation(RoomInvitation invitation, String ownNickName);
+	/**
+	 * Accepts a room invitation event and specifies a custom nick name
+	 * 
+	 * @param invitation
+	 *            the invitation event to be accepted
+	 * @param ownNickName
+	 *            the desired nickname in the group chat
+	 * @return
+	 */
+	public Room acceptRoomInvitation(RoomInvitation invitation, String ownNickName);
 
-    /**
-     * Add a handler to know when a room invitation has arrived
-     *
-     * @param handler
-     * @return
-     */
-    public HandlerRegistration addRoomInvitationReceivedHandler(RoomInvitationHandler handler);
+	/**
+	 * Add a handler to know when a room invitation has arrived
+	 * 
+	 * @param handler
+	 * @return
+	 */
+	public HandlerRegistration addRoomInvitationReceivedHandler(RoomInvitationHandler handler);
 
-    /**
-     * Obtain the default history options applied to all new rooms
-     *
-     * @return
-     */
-    public HistoryOptions getDefaultHistoryOptions();
+	/**
+	 * Obtain the default history options applied to all new rooms
+	 * 
+	 * @return
+	 */
+	public HistoryOptions getDefaultHistoryOptions();
 
-    public Room open(final XmppURI uri, HistoryOptions historyOptions);
+	public Room open(final XmppURI uri, HistoryOptions historyOptions);
 
-    public void setDefaultHistoryOptions(HistoryOptions historyOptions);
+	public void setDefaultHistoryOptions(HistoryOptions historyOptions);
 
-    void setOwnNickName(String nickName);
+	void setOwnNickName(String nickName);
 
-    void setOwnVzImageUrl(String url);
+	void setOwnVzImageUrl(String url);
+
+	void addChat(final Chat chat);
+
 }

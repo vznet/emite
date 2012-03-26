@@ -72,7 +72,7 @@ public abstract class AbstractChatManager extends ChatManagerBoilerplate {
 		return chat;
 	}
 
-	protected void addChat(final Chat chat) {
+	public void addChat(final Chat chat) {
 		chats.add(chat);
 	}
 
